@@ -1,4 +1,4 @@
-package com.kroger.rickyapp.ui
+package com.kroger.rickyapp.ui.episodes
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -10,4 +10,9 @@
         android:icon="@drawable/ic_movies"
         android:title="Episodes" />
 
+    <item
+        android:id="@+id/favoritesFragment"
+        android:icon="@drawable/ic_favorite"
+        android:title="Liked" />
+
 </menu>
