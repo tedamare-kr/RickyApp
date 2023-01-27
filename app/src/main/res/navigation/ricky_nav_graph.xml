@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/charactersFragment"
-        android:name="com.kroger.rickyapp.ui.CharactersFragment"
+        android:name="com.kroger.rickyapp.ui.characters.CharactersFragment"
         android:label="CharactersFragment"
         tools:layout="@layout/fragment_episodes" >
         <action
@@ -25,8 +25,13 @@
     </fragment>
     <fragment
         android:id="@+id/episodesFragment"
-        android:name="com.kroger.rickyapp.ui.EpisodesFragment"
+        android:name="com.kroger.rickyapp.ui.episodes.EpisodesFragment"
         android:label="fragment_episodes"
         tools:layout="@layout/fragment_episodes" />
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.kroger.rickyapp.ui.favorites.FavoritesFragment"
+        android:label="fragment_favorites"
+        tools:layout="@layout/fragment_favorites" />
 
 </navigation>
