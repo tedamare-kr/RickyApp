@@ -1,22 +1,29 @@
 package com.kroger.rickyapp.ui.characters
 
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kroger.rickyapp.databinding.ItemCharacterBinding
 import com.kroger.rickyapp.models.Character
 
-class CharactersAdapter(
-    private val characters: List<Character>,
-    private val listener: CharacterItemListener
-) :
-    RecyclerView.Adapter<CharacterViewHolder>() {
+class CharactersAdapter : RecyclerView.Adapter<CharacterViewHolder>() {
 
-    interface CharacterItemListener {
-        fun onCharacterClicked(characterId: Int)
+    private val differCallback = object : DiffUtil.ItemCallback<Character>() {
+        override fun areItemsTheSame(oldItem: Character, newItem: Character): Boolean {
+            // If two articles have the same ID (url in this case), then they must be the same item
+            return oldItem.url == newItem.url
+        }
+
+        override fun areContentsTheSame(oldItem: Character, newItem: Character): Boolean {
+            return oldItem == newItem
+        }
     }
+
+    val differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
         return CharacterViewHolder(
@@ -24,31 +31,26 @@ class CharactersAdapter(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            ),
-            listener = listener
+            )
         )
     }
 
     // Bind the list items to a view
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
-        holder.bind(characters[position])
+        val character = differ.currentList[position]
+        holder.bind(character)
     }
 
-    override fun getItemCount(): Int =
-        characters.size
+    override fun getItemCount(): Int {
+        return differ.currentList.size
+    }
 }
 
 class CharacterViewHolder(
-    private val itemBinding: ItemCharacterBinding,
-    private val listener: CharactersAdapter.CharacterItemListener
-) :
-    RecyclerView.ViewHolder(itemBinding.root), View.OnClickListener {
+    private val itemBinding: ItemCharacterBinding
+) : RecyclerView.ViewHolder(itemBinding.root) {
 
     private lateinit var character: Character
-
-    init {
-        itemBinding.charDetail.setOnClickListener(this)
-    }
 
     fun bind(character: Character) {
         this.character = character
@@ -58,9 +60,8 @@ class CharacterViewHolder(
             .load(character.image)
             .centerCrop()
             .into(itemBinding.charImage)
-    }
-
-    override fun onClick(v: View?) {
-        listener.onCharacterClicked(characterId = character.id)
+        itemBinding.charDetail.setOnClickListener {
+            Log.i("Teddy", "Teddy")
+        }
     }
 }

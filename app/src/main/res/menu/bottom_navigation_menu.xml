@@ -3,16 +3,21 @@
     <item
         android:id="@+id/charactersFragment"
         android:icon="@drawable/ic_people"
-        android:title="Characters" />
+        android:title="@string/menu_name_characters" />
 
     <item
         android:id="@+id/episodesFragment"
         android:icon="@drawable/ic_movies"
-        android:title="Episodes" />
+        android:title="@string/menu_name_episodes" />
 
     <item
         android:id="@+id/favoritesFragment"
         android:icon="@drawable/ic_favorite"
-        android:title="Liked" />
+        android:title="@string/menu_name_liked" />
+
+    <item
+        android:id="@+id/searchFragment"
+        android:icon="@drawable/ic_search"
+        android:title="@string/menu_name_search" />
 
 </menu>

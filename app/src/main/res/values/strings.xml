@@ -4,4 +4,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="header_title">Rick And Morty App</string>
     <string name="detail">Detail</string>
+    <string name="menu_name_liked">Liked</string>
+    <string name="menu_name_search">Search</string>
+    <string name="menu_name_episodes">Episodes</string>
+    <string name="menu_name_characters">Characters</string>
+    <string name="character_image">Character Image</string>
 </resources>
