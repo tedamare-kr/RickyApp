@@ -9,4 +9,5 @@
     <string name="menu_name_episodes">Episodes</string>
     <string name="menu_name_characters">Characters</string>
     <string name="character_image">Character Image</string>
+    <string name="hint_search">Search...</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.kroger.rickyapp.db
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -25,7 +26,7 @@ interface CharacterDao {
      * that subscribed to the changes of the LiveData
      */
     @Query("SELECT * FROM $TABLE_NAME ORDER BY name ASC")
-    fun getAllCharacters(): Flow<List<Character>>
+    fun getAllCharacters(): LiveData<List<Character>>
 
     @Delete
     suspend fun deleteCharacter(character: Character)
