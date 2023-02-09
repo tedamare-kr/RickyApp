@@ -43,16 +43,6 @@ class CharactersFragment : Fragment() {
         viewModel = (activity as MainActivity).viewModel
         setupRecyclerView()
 
-//        charactersAdapter.setOnItemClickListener {
-//            val bundle = Bundle().apply {
-//                putSerializable("article", it)
-//            }
-//            findNavController().navigate(
-//                R.id.action_charactersFragment_to_detailsFragment,
-//                bundle
-//            )
-//        }
-
         viewModel.charactersList.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Loading -> handleLoading(true)

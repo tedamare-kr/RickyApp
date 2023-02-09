@@ -98,8 +98,8 @@
                 android:src="@drawable/ic_favorite"
                 app:fabSize="normal"
                 app:layout_constraintBottom_toTopOf="@+id/character_created"
-                app:layout_constraintEnd_toEndOf="@+id/character_created"
-                tools:layout_editor_absoluteX="307dp" />
+                app:layout_constraintEnd_toEndOf="@+id/character_created" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
