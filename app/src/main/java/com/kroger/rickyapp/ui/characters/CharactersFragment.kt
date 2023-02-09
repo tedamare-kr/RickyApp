@@ -6,12 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kroger.rickyapp.MainActivity
 import com.kroger.rickyapp.databinding.FragmentCharactersBinding
 import com.kroger.rickyapp.models.CharacterResponse
 import com.kroger.rickyapp.util.Resource
+import kotlinx.coroutines.launch
 
 class CharactersFragment : Fragment() {
 
@@ -28,6 +31,7 @@ class CharactersFragment : Fragment() {
     // Kotlin property delegate
     // delegates the responsibility of this viewModel object to the viewModels class
     private lateinit var viewModel: CharactersViewModel
+    val viewModel2: CharactersViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +46,9 @@ class CharactersFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as MainActivity).viewModel
         setupRecyclerView()
+
+        lifecycleScope.launch {
+        }
 
         viewModel.charactersList.observe(viewLifecycleOwner) { response ->
             when (response) {
