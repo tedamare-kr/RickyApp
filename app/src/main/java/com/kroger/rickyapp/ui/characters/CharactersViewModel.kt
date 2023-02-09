@@ -3,29 +3,45 @@ package com.kroger.rickyapp.ui.characters
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.kroger.rickyapp.models.CharacterResponse
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.kroger.rickyapp.util.Resource
 import kotlinx.coroutines.launch
+import retrofit2.Response
 
-class CharactersViewModel(private val repository: CharactersRepository) : ViewModel() {
+class CharactersViewModel(
+    private val charactersRepository: CharactersRepository
+) : ViewModel() {
 
-    val charactersList = MutableLiveData<CharacterResponse>()
+    val charactersList: MutableLiveData<Resource<CharacterResponse>> = MutableLiveData()
+    var charactersPage = 1
 
-    fun getAllCharacters() {
-        // Starts on background thread
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = repository.getAllCharacters()
-//            if (response.isSuccessful) {
-//                charactersList.postValue(response.body())
-//                // live data needs to be on main thread - switch back ot main
-////                charactersList.value = response.body()
-//            }
+    init {
+        getAllCharacters()
+    }
+
+    // This function is not suspend because we don't want to propagate the function to our fragment
+    // We would then start a coroutine inside the fragment...we don't want that
+    private fun getAllCharacters() =
+        viewModelScope.launch {
+            charactersList.postValue(Resource.Loading())
+            val response = charactersRepository.getAllCharacters(pageNumber = charactersPage)
+            charactersList.postValue(handleResponse(response))
         }
+
+    private fun handleResponse(response: Response<CharacterResponse>): Resource<CharacterResponse> {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                return Resource.Success(resultResponse)
+            }
+        }
+        return Resource.Error(response.message())
     }
 }
 
-class CharactersViewModelFactory(private val repository: CharactersRepository) :
+class CharactersViewModelProviderFactory(
+    private val repository: CharactersRepository
+) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CharactersViewModel::class.java)) {
