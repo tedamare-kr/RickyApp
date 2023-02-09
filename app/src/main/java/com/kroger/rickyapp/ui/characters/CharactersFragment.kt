@@ -5,26 +5,29 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.R
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.kroger.rickyapp.MainActivity
 import com.kroger.rickyapp.databinding.FragmentCharactersBinding
-import com.kroger.rickyapp.models.Character
 import com.kroger.rickyapp.models.CharacterResponse
-import com.kroger.rickyapp.network.RetrofitClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.kroger.rickyapp.util.Resource
 
-class CharactersFragment : Fragment(), CharactersAdapter.CharacterItemListener {
+class CharactersFragment : Fragment() {
 
+    /*
+    We don't want to litter our code with '?' for null safety
+    If we're certain the value won't be null after it is created, we can append '!!'
+     */
+    // get() = Cannot be assigned to something else (get-only)
     private var _binding: FragmentCharactersBinding? = null
     private val binding get() = _binding!!
     private lateinit var charactersAdapter: CharactersAdapter
+    private var isLinearLayoutManager = false
 
-    private lateinit var characters: CharacterResponse
+    // Kotlin property delegate
+    // delegates the responsibility of this viewModel object to the viewModels class
+    private lateinit var viewModel: CharactersViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,30 +40,45 @@ class CharactersFragment : Fragment(), CharactersAdapter.CharacterItemListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
 
-        val response = RetrofitClient.rickandmortyService.getAllCharacters()
-        response.enqueue(object : Callback<CharacterResponse> {
-            override fun onResponse(call: Call<CharacterResponse>, response: Response<CharacterResponse>) {
-                if (response.isSuccessful) {
-                    Log.i(TAG, "successful response: ${response.body()}")
-                    val result = response.body()?.results
-                    result?.let {
-                        setRecyclerView(it)
-                    }
+        viewModel = (activity as MainActivity).viewModel
+
+        viewModel.charactersList.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> handleLoading(true)
+                is Resource.Success -> response.data?.let {
+                    displayContent(it)
+                }
+                is Resource.Error -> response.message?.let {
+                    handleError(it)
                 }
             }
-
-            override fun onFailure(call: Call<CharacterResponse>, t: Throwable) {
-                Log.e(TAG, "Failure: ${t.message}")
-            }
-        })
+        }
     }
 
-    private fun setRecyclerView(characters: List<Character>) {
-        charactersAdapter = CharactersAdapter(characters, this)
+    private fun handleError(message: String) {
+        Log.e(TAG, "An error occurred : $message")
+    }
+
+    private fun displayContent(response: CharacterResponse) {
+        handleLoading(false)
+        charactersAdapter.differ.submitList(response.results)
+    }
+
+    private fun handleLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.INVISIBLE
+    }
+
+    private fun setupRecyclerView() {
+        charactersAdapter = CharactersAdapter()
         binding.rvCharacters.apply {
-            layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = charactersAdapter
+            layoutManager = if (isLinearLayoutManager) {
+                LinearLayoutManager(context)
+            } else {
+                GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
+            }
         }
     }
 
@@ -71,13 +89,5 @@ class CharactersFragment : Fragment(), CharactersAdapter.CharacterItemListener {
 
     companion object {
         private const val TAG = "CharactersFragment"
-        fun newInstance(): CharactersFragment = CharactersFragment()
-    }
-
-    override fun onCharacterClicked(characterId: Int) {
-        findNavController().navigate(
-            com.kroger.rickyapp.R.id.action_charactersFragment_to_detailsFragment,
-            bundleOf("id" to characterId)
-        )
     }
 }
