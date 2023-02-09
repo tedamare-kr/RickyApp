@@ -21,10 +21,10 @@
 
             <!-- Media -->
             <ImageView
-                android:contentDescription="@string/character_image"
                 android:id="@+id/charImage"
                 android:layout_width="match_parent"
                 android:layout_height="196dp"
+                android:contentDescription="@string/character_image"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/avatars" />
 
@@ -39,18 +39,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-smallcaps"
-                    tools:text="Title"
+                    android:maxLines="1"
 
                     android:textAppearance="?attr/textAppearanceTitleMedium"
                     android:textColor="#fff"
                     android:textSize="20sp"
-                    android:maxLines="1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Title" />
 
                 <com.google.android.material.button.MaterialButton
-                    style="@style/Widget.MaterialComponents.Button"
                     android:id="@+id/charDetail"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
