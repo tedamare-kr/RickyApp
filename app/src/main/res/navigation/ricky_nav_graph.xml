@@ -9,25 +9,20 @@
         android:id="@+id/charactersFragment"
         android:name="com.kroger.rickyapp.ui.characters.CharactersFragment"
         android:label="CharactersFragment"
-        tools:layout="@layout/fragment_episodes" >
+        tools:layout="@layout/fragment_characters" >
         <action
             android:id="@+id/action_charactersFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.kroger.rickyapp.ui.DetailsFragment"
+        android:name="com.kroger.rickyapp.ui.details.DetailsFragment"
         android:label="fragment_details"
         tools:layout="@layout/fragment_details" >
-        <action
-            android:id="@+id/action_detailsFragment_to_charactersFragment"
-            app:destination="@id/charactersFragment" />
+        <argument
+            android:name="character"
+            app:argType="com.kroger.rickyapp.models.Character" />
     </fragment>
-    <fragment
-        android:id="@+id/episodesFragment"
-        android:name="com.kroger.rickyapp.ui.episodes.EpisodesFragment"
-        android:label="fragment_episodes"
-        tools:layout="@layout/fragment_episodes" />
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.kroger.rickyapp.ui.favorites.FavoritesFragment"
@@ -37,6 +32,10 @@
         android:id="@+id/searchFragment"
         android:name="com.kroger.rickyapp.ui.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
 
 </navigation>

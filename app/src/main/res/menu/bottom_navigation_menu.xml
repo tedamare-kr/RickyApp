@@ -6,11 +6,6 @@
         android:title="@string/menu_name_characters" />
 
     <item
-        android:id="@+id/episodesFragment"
-        android:icon="@drawable/ic_movies"
-        android:title="@string/menu_name_episodes" />
-
-    <item
         android:id="@+id/favoritesFragment"
         android:icon="@drawable/ic_favorite"
         android:title="@string/menu_name_liked" />
