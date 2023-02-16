@@ -1,24 +1,18 @@
 package com.kroger.rickyapp.ui.characters
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.kroger.rickyapp.R
 import com.kroger.rickyapp.databinding.ItemCharacterBinding
 import com.kroger.rickyapp.models.Character
 
-class CharactersAdapter : RecyclerView.Adapter<CharacterViewHolder>() {
+class CharactersAdapter(private val characterAdapterListener: CharacterAdapterListener) : RecyclerView.Adapter<CharacterViewHolder>() {
 
-    private var onItemClickListener: ((Character) -> Unit)? = null
-
-    fun setOnItemClickListener(listener: (Character) -> Unit) {
-        onItemClickListener = listener
+    interface CharacterAdapterListener {
+        fun onCharacterItemClicked(character: Character)
     }
 
     private val differCallback = object : DiffUtil.ItemCallback<Character>() {
@@ -40,7 +34,8 @@ class CharactersAdapter : RecyclerView.Adapter<CharacterViewHolder>() {
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ),
+            characterAdapterListener
         )
     }
 
@@ -56,13 +51,10 @@ class CharactersAdapter : RecyclerView.Adapter<CharacterViewHolder>() {
 }
 
 class CharacterViewHolder(
-    private val itemBinding: ItemCharacterBinding
+    private val itemBinding: ItemCharacterBinding,
+    val characterAdapterListener: CharactersAdapter.CharacterAdapterListener
 ) : RecyclerView.ViewHolder(itemBinding.root) {
-
-    private lateinit var character: Character
-
     fun bind(character: Character) {
-        this.character = character
         itemBinding.charName.text = character.name
         Glide
             .with(itemBinding.root)
@@ -70,13 +62,7 @@ class CharacterViewHolder(
             .centerCrop()
             .into(itemBinding.charImage)
         itemBinding.charDetail.setOnClickListener {
-            val bundle = Bundle().apply {
-                putSerializable("character", character)
-            }
-            itemView.findNavController().navigate(
-                R.id.action_charactersFragment_to_detailsFragment,
-                bundle
-            )
+            characterAdapterListener.onCharacterItemClicked(character)
         }
     }
 }

@@ -6,17 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.commit
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kroger.rickyapp.MainActivity
+import com.kroger.rickyapp.R
 import com.kroger.rickyapp.databinding.FragmentCharactersBinding
+import com.kroger.rickyapp.models.Character
 import com.kroger.rickyapp.models.CharacterResponse
+import com.kroger.rickyapp.ui.details.DetailsFragment
 import com.kroger.rickyapp.util.Resource
-import kotlinx.coroutines.launch
 
-class CharactersFragment : Fragment() {
+class CharactersFragment :
+    Fragment(),
+    CharactersAdapter.CharacterAdapterListener {
 
     /*
     We don't want to litter our code with '?' for null safety
@@ -31,7 +35,6 @@ class CharactersFragment : Fragment() {
     // Kotlin property delegate
     // delegates the responsibility of this viewModel object to the viewModels class
     private lateinit var viewModel: CharactersViewModel
-    val viewModel2: CharactersViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,11 +47,16 @@ class CharactersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as MainActivity).viewModel
-        setupRecyclerView()
 
-        lifecycleScope.launch {
-        }
+        // If the viewModel were to be coming from the MainActivity, we access it like this
+        // viewModel = (activity as MainActivity).viewModel
+
+        viewModel =
+            ViewModelProvider(
+                this,
+                (activity as MainActivity).viewModelProviderFactory
+            ).get(CharactersViewModel::class.java)
+        setupRecyclerView()
 
         viewModel.charactersList.observe(viewLifecycleOwner) { response ->
             when (response) {
@@ -64,7 +72,7 @@ class CharactersFragment : Fragment() {
     }
 
     private fun handleError(message: String) {
-        Log.e(TAG, "An error occurred : $message")
+        Log.e(FRAGMENT_TAG, "An error occurred : $message")
     }
 
     private fun displayContent(response: CharacterResponse) {
@@ -77,7 +85,7 @@ class CharactersFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        charactersAdapter = CharactersAdapter()
+        charactersAdapter = CharactersAdapter(this)
         binding.rvCharacters.apply {
             adapter = charactersAdapter
             layoutManager = if (isLinearLayoutManager) {
@@ -93,7 +101,20 @@ class CharactersFragment : Fragment() {
         _binding = null
     }
 
+    override fun onCharacterItemClicked(character: Character) {
+        activity?.supportFragmentManager?.commit {
+            replace(
+                R.id.fragment_container,
+                DetailsFragment.newInstance(),
+                DetailsFragment.FRAGMENT_TAG
+            )
+            setReorderingAllowed(true)
+            addToBackStack("")
+        }
+    }
+
     companion object {
-        private const val TAG = "CharactersFragment"
+        const val FRAGMENT_TAG: String = "CharactersFragment"
+        fun newInstance(): CharactersFragment = CharactersFragment()
     }
 }
