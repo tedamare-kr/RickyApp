@@ -9,4 +9,13 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#202124</color>
     <color name="green">#4cff8f</color>
+    <color name="pink">#fd21a3</color>
+
+    <color name="basil_green_800">#356859</color>
+    <color name="basil_green_500">#37966F</color>
+    <color name="basil_green_100">#B9E4c9</color>
+
+    <color name="basil_orange_800">#FD5523</color>
+    <color name="basil_orange_50">#FFFBE6</color>
+
 </resources>
