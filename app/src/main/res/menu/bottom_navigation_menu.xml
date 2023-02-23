@@ -2,16 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/charactersFragment"
+        android:enabled="true"
         android:icon="@drawable/ic_people"
         android:title="@string/menu_name_characters" />
 
     <item
         android:id="@+id/favoritesFragment"
+        android:enabled="true"
         android:icon="@drawable/ic_favorite"
-        android:title="@string/menu_name_liked" />
+        android:title="@string/menu_name_favorites" />
 
     <item
         android:id="@+id/searchFragment"
+        android:enabled="true"
         android:icon="@drawable/ic_search"
         android:title="@string/menu_name_search" />
 
