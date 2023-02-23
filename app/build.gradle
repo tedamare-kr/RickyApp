@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs'
     id 'kotlin-kapt'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -88,6 +89,9 @@ dependencies {
 
     // CardView
     implementation "androidx.cardview:cardview:1.0.0"
+
+    // SlidingPaneLayout
+    implementation "androidx.slidingpanelayout:slidingpanelayout:1.2.0"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
