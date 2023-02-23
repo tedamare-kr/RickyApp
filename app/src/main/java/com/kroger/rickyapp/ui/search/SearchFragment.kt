@@ -32,7 +32,7 @@ class SearchFragment : Fragment(), CharactersAdapter.CharacterAdapterListener {
 
     private lateinit var charactersAdapter: CharactersAdapter
     private lateinit var viewModel: CharactersViewModel
-    private var isLinearLayoutManager = false
+    private var isLinearLayoutManager = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -117,7 +117,7 @@ class SearchFragment : Fragment(), CharactersAdapter.CharacterAdapterListener {
         activity?.supportFragmentManager?.commit {
             replace(
                 R.id.fragment_container,
-                DetailsFragment.newInstance(),
+                DetailsFragment.newInstance(character),
                 DetailsFragment.FRAGMENT_TAG
             )
             setReorderingAllowed(true)

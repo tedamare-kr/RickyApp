@@ -56,12 +56,13 @@ class CharacterViewHolder(
 ) : RecyclerView.ViewHolder(itemBinding.root) {
     fun bind(character: Character) {
         itemBinding.charName.text = character.name
+        itemBinding.characterStatus.text = character.status
         Glide
             .with(itemBinding.root)
             .load(character.image)
             .centerCrop()
             .into(itemBinding.charImage)
-        itemBinding.charDetail.setOnClickListener {
+        itemBinding.root.setOnClickListener {
             characterAdapterListener.onCharacterItemClicked(character)
         }
     }

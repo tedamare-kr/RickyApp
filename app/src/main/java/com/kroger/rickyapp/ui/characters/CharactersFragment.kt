@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -30,7 +31,7 @@ class CharactersFragment :
     private var _binding: FragmentCharactersBinding? = null
     private val binding get() = _binding!!
     private lateinit var charactersAdapter: CharactersAdapter
-    private var isLinearLayoutManager = false
+    private var isLinearLayoutManager = true
 
     // Kotlin property delegate
     // delegates the responsibility of this viewModel object to the viewModels class
@@ -81,7 +82,7 @@ class CharactersFragment :
     }
 
     private fun handleLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.INVISIBLE
+//        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.INVISIBLE
     }
 
     private fun setupRecyclerView() {
@@ -102,15 +103,21 @@ class CharactersFragment :
     }
 
     override fun onCharacterItemClicked(character: Character) {
-        activity?.supportFragmentManager?.commit {
+        childFragmentManager.commit {
             replace(
-                R.id.fragment_container,
-                DetailsFragment.newInstance(),
+                R.id.detail_container,
+                DetailsFragment.newInstance(character),
                 DetailsFragment.FRAGMENT_TAG
             )
             setReorderingAllowed(true)
             addToBackStack("")
+            // If we're already open and the detail pane is visible,
+            // crossfade between the fragments.
+            if (binding.slidingPaneLayout.isOpen) {
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            }
         }
+        binding.slidingPaneLayout.open()
     }
 
     companion object {
