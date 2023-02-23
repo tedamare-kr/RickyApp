@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -22,7 +23,7 @@ class FavoritesFragment : Fragment(), CharactersAdapter.CharacterAdapterListener
     private var _binding: FragmentFavoritesBinding? = null
     private val binding get() = _binding!!
     private lateinit var charactersAdapter: CharactersAdapter
-    private var isLinearLayoutManager = false
+    private var isLinearLayoutManager = true
     private lateinit var viewModel: CharactersViewModel
 
     override fun onCreateView(
@@ -72,7 +73,7 @@ class FavoritesFragment : Fragment(), CharactersAdapter.CharacterAdapterListener
         activity?.supportFragmentManager?.commit {
             replace(
                 R.id.fragment_container,
-                DetailsFragment.newInstance(),
+                DetailsFragment.newInstance(character),
                 DetailsFragment.FRAGMENT_TAG
             )
             setReorderingAllowed(true)
