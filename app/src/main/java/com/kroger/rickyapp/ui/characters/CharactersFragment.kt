@@ -9,18 +9,19 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.slidingpanelayout.widget.SlidingPaneLayout
-import com.kroger.rickyapp.MainActivity
 import com.kroger.rickyapp.R
 import com.kroger.rickyapp.databinding.FragmentCharactersBinding
 import com.kroger.rickyapp.models.Character
 import com.kroger.rickyapp.models.CharacterResponse
 import com.kroger.rickyapp.ui.details.DetailsFragment
 import com.kroger.rickyapp.util.Resource
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CharactersFragment :
     Fragment(),
     CharactersAdapter.CharacterAdapterListener {
@@ -34,10 +35,11 @@ class CharactersFragment :
     private val binding get() = _binding!!
     private lateinit var charactersAdapter: CharactersAdapter
     private var isLinearLayoutManager = true
+    private val viewModel: CharactersViewModel by viewModels()
 
     // Kotlin property delegate
     // delegates the responsibility of this viewModel object to the viewModels class
-    private lateinit var viewModel: CharactersViewModel
+//    private var viewModel: CharactersViewModel by
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,11 +62,6 @@ class CharactersFragment :
             CharactersListOnBackPressedCallback(binding.slidingPaneLayout)
         )
 
-        viewModel =
-            ViewModelProvider(
-                this,
-                (activity as MainActivity).viewModelProviderFactory
-            ).get(CharactersViewModel::class.java)
         setupRecyclerView()
 
         viewModel.charactersList.observe(viewLifecycleOwner) { response ->
@@ -118,7 +115,6 @@ class CharactersFragment :
                 DetailsFragment.FRAGMENT_TAG
             )
             setReorderingAllowed(true)
-            addToBackStack("")
             // If we're already open and the detail pane is visible,
             // crossfade between the fragments.
             if (binding.slidingPaneLayout.isOpen) {

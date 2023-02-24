@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kroger.rickyapp.MainActivity
 import com.kroger.rickyapp.R
 import com.kroger.rickyapp.databinding.FragmentSearchBinding
 import com.kroger.rickyapp.models.Character
@@ -19,11 +19,13 @@ import com.kroger.rickyapp.ui.characters.CharactersAdapter
 import com.kroger.rickyapp.ui.characters.CharactersViewModel
 import com.kroger.rickyapp.ui.details.DetailsFragment
 import com.kroger.rickyapp.util.Resource
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class SearchFragment : Fragment(), CharactersAdapter.CharacterAdapterListener {
 
     private var _binding: FragmentSearchBinding? = null
@@ -31,7 +33,7 @@ class SearchFragment : Fragment(), CharactersAdapter.CharacterAdapterListener {
         get() = _binding!!
 
     private lateinit var charactersAdapter: CharactersAdapter
-    private lateinit var viewModel: CharactersViewModel
+    private val viewModel: CharactersViewModel by viewModels()
     private var isLinearLayoutManager = true
 
     override fun onCreateView(
@@ -47,7 +49,6 @@ class SearchFragment : Fragment(), CharactersAdapter.CharacterAdapterListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = (activity as MainActivity).viewModel
         setupRecyclerView()
 
         var job: Job? = null

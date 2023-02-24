@@ -4,24 +4,16 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.lifecycle.ViewModelProvider
 import com.kroger.rickyapp.databinding.ActivityMainBinding
-import com.kroger.rickyapp.db.CharacterDatabase
 import com.kroger.rickyapp.ui.characters.CharactersFragment
-import com.kroger.rickyapp.ui.characters.CharactersRepository
-import com.kroger.rickyapp.ui.characters.CharactersViewModel
-import com.kroger.rickyapp.ui.characters.CharactersViewModelProviderFactory
 import com.kroger.rickyapp.ui.favorites.FavoritesFragment
 import com.kroger.rickyapp.ui.search.SearchFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
-    lateinit var viewModel: CharactersViewModel
-
-    lateinit var viewModelProviderFactory: CharactersViewModelProviderFactory
-    lateinit var charactersRepository: CharactersRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,12 +24,6 @@ class MainActivity : AppCompatActivity() {
         loadFragment(CharactersFragment.newInstance(), CharactersFragment.FRAGMENT_TAG)
 
         handleBottomMenuNavigation()
-
-        charactersRepository = CharactersRepository(CharacterDatabase(this))
-        viewModelProviderFactory =
-            CharactersViewModelProviderFactory(repository = charactersRepository)
-        viewModel =
-            ViewModelProvider(this, viewModelProviderFactory).get(CharactersViewModel::class.java)
     }
 
     private fun handleBottomMenuNavigation() {
