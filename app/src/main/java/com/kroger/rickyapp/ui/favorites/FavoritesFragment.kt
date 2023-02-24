@@ -5,26 +5,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kroger.rickyapp.MainActivity
 import com.kroger.rickyapp.R
 import com.kroger.rickyapp.databinding.FragmentFavoritesBinding
 import com.kroger.rickyapp.models.Character
 import com.kroger.rickyapp.ui.characters.CharactersAdapter
 import com.kroger.rickyapp.ui.characters.CharactersViewModel
 import com.kroger.rickyapp.ui.details.DetailsFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavoritesFragment : Fragment(), CharactersAdapter.CharacterAdapterListener {
 
     private var _binding: FragmentFavoritesBinding? = null
     private val binding get() = _binding!!
     private lateinit var charactersAdapter: CharactersAdapter
     private var isLinearLayoutManager = true
-    private lateinit var viewModel: CharactersViewModel
+    private val viewModel: CharactersViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,12 +38,6 @@ class FavoritesFragment : Fragment(), CharactersAdapter.CharacterAdapterListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel =
-            ViewModelProvider(
-                this,
-                (activity as MainActivity).viewModelProviderFactory
-            ).get(CharactersViewModel::class.java)
 
         setupRecyclerView()
 
