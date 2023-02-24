@@ -3,19 +3,19 @@
     <item
         android:id="@+id/charactersFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_people"
+        android:icon="@drawable/character_selector"
         android:title="@string/menu_name_characters" />
 
     <item
         android:id="@+id/favoritesFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_favorite"
+        android:icon="@drawable/favorite_selector"
         android:title="@string/menu_name_favorites" />
 
     <item
         android:id="@+id/searchFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_search"
+        android:icon="@drawable/search_selector"
         android:title="@string/menu_name_search" />
 
 </menu>
