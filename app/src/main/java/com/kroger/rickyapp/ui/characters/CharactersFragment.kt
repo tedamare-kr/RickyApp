@@ -17,7 +17,7 @@ import com.kroger.rickyapp.R
 import com.kroger.rickyapp.databinding.FragmentCharactersBinding
 import com.kroger.rickyapp.models.Character
 import com.kroger.rickyapp.models.CharacterResponse
-import com.kroger.rickyapp.ui.details.DetailsFragment
+import com.kroger.rickyapp.ui.details.CharactersDetailsFragment
 import com.kroger.rickyapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -111,8 +111,8 @@ class CharactersFragment :
         childFragmentManager.commit {
             replace(
                 R.id.detail_container,
-                DetailsFragment.newInstance(character),
-                DetailsFragment.FRAGMENT_TAG
+                CharactersDetailsFragment.newInstance(character),
+                CharactersDetailsFragment.FRAGMENT_TAG
             )
             setReorderingAllowed(true)
             // If we're already open and the detail pane is visible,

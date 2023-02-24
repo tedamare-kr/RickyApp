@@ -17,7 +17,7 @@ import com.kroger.rickyapp.models.Character
 import com.kroger.rickyapp.models.CharacterResponse
 import com.kroger.rickyapp.ui.characters.CharactersAdapter
 import com.kroger.rickyapp.ui.characters.CharactersViewModel
-import com.kroger.rickyapp.ui.details.DetailsFragment
+import com.kroger.rickyapp.ui.details.CharactersDetailsFragment
 import com.kroger.rickyapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -118,8 +118,8 @@ class SearchFragment : Fragment(), CharactersAdapter.CharacterAdapterListener {
         activity?.supportFragmentManager?.commit {
             replace(
                 R.id.fragment_container,
-                DetailsFragment.newInstance(character),
-                DetailsFragment.FRAGMENT_TAG
+                CharactersDetailsFragment.newInstance(character),
+                CharactersDetailsFragment.FRAGMENT_TAG
             )
             setReorderingAllowed(true)
             addToBackStack("")
