@@ -57,6 +57,7 @@ class CharacterViewHolder(
     fun bind(character: Character) {
         itemBinding.charName.text = character.name
         itemBinding.characterStatus.text = character.status
+//        itemBinding.characterLocation.text = character.location.name
         Glide
             .with(itemBinding.root)
             .load(character.image)

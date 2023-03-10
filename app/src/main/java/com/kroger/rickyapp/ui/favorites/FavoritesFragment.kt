@@ -13,7 +13,6 @@ import com.kroger.rickyapp.R
 import com.kroger.rickyapp.databinding.FragmentFavoritesBinding
 import com.kroger.rickyapp.models.Character
 import com.kroger.rickyapp.ui.characters.CharactersAdapter
-import com.kroger.rickyapp.ui.characters.CharactersViewModel
 import com.kroger.rickyapp.ui.details.CharactersDetailsFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +23,7 @@ class FavoritesFragment : Fragment(), CharactersAdapter.CharacterAdapterListener
     private val binding get() = _binding!!
     private lateinit var charactersAdapter: CharactersAdapter
     private var isLinearLayoutManager = true
-    private val viewModel: CharactersViewModel by viewModels()
+    private val viewModel: FavoritesViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

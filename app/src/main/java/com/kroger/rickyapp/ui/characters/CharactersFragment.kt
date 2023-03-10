@@ -16,9 +16,7 @@ import androidx.slidingpanelayout.widget.SlidingPaneLayout
 import com.kroger.rickyapp.R
 import com.kroger.rickyapp.databinding.FragmentCharactersBinding
 import com.kroger.rickyapp.models.Character
-import com.kroger.rickyapp.models.CharacterResponse
 import com.kroger.rickyapp.ui.details.CharactersDetailsFragment
-import com.kroger.rickyapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,7 +37,6 @@ class CharactersFragment :
 
     // Kotlin property delegate
     // delegates the responsibility of this viewModel object to the viewModels class
-//    private var viewModel: CharactersViewModel by
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,26 +61,22 @@ class CharactersFragment :
 
         setupRecyclerView()
 
-        viewModel.charactersList.observe(viewLifecycleOwner) { response ->
+        viewModel.characterLiveData.observe(viewLifecycleOwner) { response ->
             when (response) {
-                is Resource.Loading -> handleLoading(true)
-                is Resource.Success -> response.data?.let {
-                    displayContent(it)
-                }
-                is Resource.Error -> response.message?.let {
-                    handleError(it)
-                }
+                is CharacterUIData.Loading -> handleLoading(true)
+                is CharacterUIData.Success -> displayContent(response.characterResponse.results)
+                is CharacterUIData.Error -> handleError(response)
             }
         }
     }
 
-    private fun handleError(message: String) {
+    private fun handleError(message: CharacterUIData) {
         Log.e(FRAGMENT_TAG, "An error occurred : $message")
     }
 
-    private fun displayContent(response: CharacterResponse) {
+    private fun displayContent(response: List<Character>) {
         handleLoading(false)
-        charactersAdapter.differ.submitList(response.results)
+        charactersAdapter.differ.submitList(response)
     }
 
     private fun handleLoading(isLoading: Boolean) {

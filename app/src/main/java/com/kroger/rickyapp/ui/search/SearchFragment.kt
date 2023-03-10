@@ -16,7 +16,6 @@ import com.kroger.rickyapp.databinding.FragmentSearchBinding
 import com.kroger.rickyapp.models.Character
 import com.kroger.rickyapp.models.CharacterResponse
 import com.kroger.rickyapp.ui.characters.CharactersAdapter
-import com.kroger.rickyapp.ui.characters.CharactersViewModel
 import com.kroger.rickyapp.ui.details.CharactersDetailsFragment
 import com.kroger.rickyapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +32,7 @@ class SearchFragment : Fragment(), CharactersAdapter.CharacterAdapterListener {
         get() = _binding!!
 
     private lateinit var charactersAdapter: CharactersAdapter
-    private val viewModel: CharactersViewModel by viewModels()
+    private val viewModel: SearchViewModel by viewModels()
     private var isLinearLayoutManager = true
 
     override fun onCreateView(
