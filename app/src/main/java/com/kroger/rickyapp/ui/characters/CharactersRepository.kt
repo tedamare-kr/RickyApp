@@ -1,7 +1,6 @@
 package com.kroger.rickyapp.ui.characters
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import com.kroger.rickyapp.db.CharacterDatabase
 import com.kroger.rickyapp.models.Character
 import com.kroger.rickyapp.models.CharacterResponse
@@ -32,7 +31,7 @@ class CharactersRepository @Inject constructor(
                 CharacterUIData.Success(CharacterResponse(characters))
             } else CharacterUIData.Error
         } else {
-            val characters = getCharsFromDB().value.orEmpty()
+            val characters = getCharsFromDB()
             CharacterUIData.Success(CharacterResponse(characters))
         }
     }
@@ -40,7 +39,7 @@ class CharactersRepository @Inject constructor(
     private suspend fun getAllCharactersFromAPI(pageNumber: Int) =
         rickAndMortyService.getAllCharacters(pageNumber)
 
-    private fun getCharsFromDB(): LiveData<List<Character>> =
+    private fun getCharsFromDB(): List<Character> =
         characterDatabase.characterDao().getAllCharacters()
 
     private suspend fun insertAllCharacters(characters: List<Character>) {

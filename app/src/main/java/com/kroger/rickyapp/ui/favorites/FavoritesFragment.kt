@@ -40,7 +40,8 @@ class FavoritesFragment : Fragment(), CharactersAdapter.CharacterAdapterListener
 
         setupRecyclerView()
 
-        viewModel.getFavorites().observe(viewLifecycleOwner) {
+        viewModel.getFavorites()
+        viewModel.listThingy.observe(viewLifecycleOwner) {
             charactersAdapter.differ.submitList(it)
         }
     }
