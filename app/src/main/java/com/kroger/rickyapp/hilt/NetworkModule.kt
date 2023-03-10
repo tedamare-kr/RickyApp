@@ -12,14 +12,12 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
     @Provides
-    @Singleton
     fun providesRetrofit(): Retrofit {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -40,7 +38,6 @@ object NetworkModule {
      * Any repositories this is injected to will have the same api service
      */
     @Provides
-    @Singleton
     fun providesCharactersService(retrofit: Retrofit): RickAndMortyService {
         return retrofit.create(RickAndMortyService::class.java)
     }

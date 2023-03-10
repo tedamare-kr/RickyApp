@@ -14,14 +14,15 @@ import com.kroger.rickyapp.models.Character
  */
 @Database(
     entities = [Character::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
+//@TypeConverters(Converter::class)
 abstract class CharacterDatabase : RoomDatabase() {
     abstract fun characterDao(): CharacterDao
 
     companion object {
-        private const val DATABASE_NAME = "character_db.db"
+        private const val DATABASE_NAME = "characters"
 
         // Other threads can see when this instance is changed
         // Single instance of the database

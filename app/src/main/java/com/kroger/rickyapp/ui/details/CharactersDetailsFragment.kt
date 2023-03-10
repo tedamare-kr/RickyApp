@@ -10,16 +10,15 @@ import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.kroger.rickyapp.databinding.FragmentDetailsBinding
 import com.kroger.rickyapp.models.Character
-import com.kroger.rickyapp.ui.characters.CharactersViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailsFragment : Fragment() {
+class CharactersDetailsFragment : Fragment() {
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: CharactersViewModel by viewModels()
+    private val viewModel: CharactersDetailViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,10 +60,11 @@ class DetailsFragment : Fragment() {
         const val FRAGMENT_TAG: String = "DetailsFragment"
         private val CHARACTER = "character"
 
-        fun newInstance(character: Character): DetailsFragment = DetailsFragment().also {
-            it.arguments = Bundle().also { bundle ->
-                bundle.putParcelable(CHARACTER, character)
+        fun newInstance(character: Character): CharactersDetailsFragment =
+            CharactersDetailsFragment().also {
+                it.arguments = Bundle().also { bundle ->
+                    bundle.putParcelable(CHARACTER, character)
+                }
             }
-        }
     }
 }

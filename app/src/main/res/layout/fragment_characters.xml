@@ -19,7 +19,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/detail_container"
-        android:name="com.kroger.rickyapp.ui.details.DetailsFragment"
+        android:name="com.kroger.rickyapp.ui.details.CharactersDetailsFragment"
         android:layout_width="300dp"
         android:layout_weight="1"
         android:layout_height="match_parent" />

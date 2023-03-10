@@ -21,6 +21,9 @@ data class Character(
     val image: String,
     val url: String,
     val created: String
+//    val episode: List<String>,
+//    val location: Location,
+//    val origin: Origin
 ) : Parcelable {
     internal companion object {
         const val TABLE_NAME: String = "characters"
