@@ -5,9 +5,10 @@
     android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    app:cardElevation="4dp"
-    android:backgroundTint="@color/basil_green_500"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="12dp"
+    app:cardUseCompatPadding="true"
+    android:backgroundTint="@color/basil_green_100"
     app:strokeColor="@android:color/background_light">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,8 +18,8 @@
         <!-- Media -->
         <ImageView
             android:id="@+id/charImage"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:contentDescription="@string/character_image"
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,22 +53,43 @@
             android:id="@+id/character_status"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
             android:textColor="?android:textColorSecondary"
+            android:textSize="11sp"
             app:layout_constraintStart_toStartOf="@id/charName"
             app:layout_constraintTop_toBottomOf="@id/divider"
             tools:text="Alive" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/charDetail"
-            style="?attr/materialButtonOutlinedStyle"
+        <TextView
+            android:id="@+id/character_location_header"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/detail"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_height="match_parent"
+            android:textSize="11sp"
+            android:layout_marginTop="8dp"
+            android:textColor="?android:textColorSecondary"
+            app:layout_constraintStart_toStartOf="@id/charName"
+            app:layout_constraintTop_toBottomOf="@id/character_status"
+            android:text="@string/last_known_location" />
+
+        <TextView
+            android:id="@+id/character_location"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="?android:textColorPrimary"
+            app:layout_constraintStart_toStartOf="@id/charName"
+            app:layout_constraintTop_toBottomOf="@id/character_location_header"
+            android:textStyle="bold"
+            tools:text="Interdimensional Cable" />
+
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/charDetail"-->
+<!--            style="?attr/materialButtonOutlinedStyle"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/detail"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:textColor="@color/black"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
